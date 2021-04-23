@@ -1,0 +1,134 @@
+const express = require('express');
+const morgan = require('morgan');
+
+const hostname= 'localhost';
+const port= 3000;
+
+const app = express();
+app.use(morgan('dev'));
+
+app.use(express.static(__dirname + '/public'));
+
+app.use((req, res) => {
+    res.statusCode = 200; 
+})
+
+app.use((req, res) => {
+    //console.log(req.headers);
+    res.statusCode= 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<html><body><h1>This is an Express Server</h1></body></html>');
+});
+
+app.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+NOTES!! NOTES!! NOTES!! NOTES!! NOTES!! NOTES!! NOTES!! 
+7) express function returns a express server application that will now be available to us under this name that we gave the variable.  
+16) app.use(()) takes a callback function ... which express calls a middleware function ... has access to 3 parameters: req obj, res obj, and next which is a function... we didnt use the next function here tho..  
+
+8) app.use() but this time instead of giving it a callback middleware function that we write inline we insert morgan by using the morgan function w/ the argument of 'dev'.. this will configure morgan to log using the development version to give additional info on the screen ..
+10) we set up express to serve files from the public folder.. w/ middle where function called express.static()... __dirname variabe is a special variable in node. it refers to the absolute path of the current directory of the file that its in.. 
+
+const express = require('express');
+const morgan = require('morgan');
+const campsiteRouter = require('./routes/campsiteRouter');
+
+const hostname = 'localhost';
+const port = 3000;
+
+const app = express();
+app.use(morgan('dev'));
+app.use(express.json());
+
+app.use('/campsites', campsiteRouter);
+
+app.use(express.static(__dirname + '/public'));
+
+app.use((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<html><body><h1>This is an Express Server</h1></body></html>');
+});
+
+app.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+NEWFILE!!!!!!!!!!!!!!!!!!!!!!!! different version picks up right after line 43) 
+app.all('/campsites', (req, res, next) => {
+    res.statusCode= 200;
+    res.setHeader('Content-Type', 'text/plain');
+    next();
+});
+
+app.get('/campsites', (req, res) => {
+    res.end('Will send all the campsites to you');
+});
+
+app.post('/campsites', (req, res) => {
+    res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);
+}); 
+
+app.put('/campsites', (req, res) => {
+    res.statusCode = 403;
+    res.end('PUT operation not supported on /campsites');
+});
+
+app.delete('/campsites', (req, res) => {
+    res.end('Deleting all campsites');
+});
+
+app.get('/campsites/:campsiteId', (req, res) => {
+    res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`)
+})
+
+app.post('/campsites/:campsiteId', (req, res) => {
+    res.statusCode = 403;
+    res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
+});
+
+app.put('/campsites/:campsiteId', (req, res) => {
+    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
+    res.end(`Will update the campsite: ${req.body.name}
+        with description: ${req.body.description}`);
+});
+
+app.delete('/campsites/:campsiteId', (req, res) => {
+    res.end(`Deleting campsite: ${req.params.campsiteId}`);
+});
+
+app.use(express.static(__dirname + '/public'));
+
+app.use((req, res) => {
+    // console.log(req.headers);
+    res.statusCode= 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<html><body><h1>This is an Express Server</h1></body></html>');
+});
+
+app.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+NOTES!!!!!  NOTES!!!!!  NOTES!!!!!  NOTES!!!!!  NOTES!!!!!  NOTES!!!!!  NOTES!!!!!  NOTES!!!!!  
+43) express.json is a express middleware function... now when the server receives request with json formatted dta within the body this will handle parsing that data into JS properties of the request object so we can use that data in JS.. 
+
+62) next() function.. passes control of the application routing to the next relative routing method after this one.. other wise it would just stop here and not go any further... 
+
+65-67) (routing method) setting up an endpoint for a get request to the path /campsites and it also takes a callback function. Unlike with app.all we dont want to process any more routing methods after this one so we don't pass the next function just the req and res objects. 
+66) the statusCode and setHeader method are already set by the app.all method so we just use the res.end to send a message body back to the client.. 
+
+NOTE: After the express server handles the code inside the callback for the app.all method; once it hits the next function it will go to the next RELEVANT routing method.. Meaning if the request that came in was a post request then it will go from the  app.all() 59) to the 69) post routing method effectively skipping the get request on line 65) 
+
+Post request will typically carry some info in the body of the message and expect that data to be in JSON format ... The   express.json middleware function will take the properties from that json data thats recieved and auto set them up as properties of the request.body JS object. 
+
+82) app.get('/campsites/:campsiteId', (req, res) => {
+    -adds a route parameter to the end of the path.. what it does is allow us to store whatever the client sends as a part of the path after the / as a route parameter named campsiteId. now if we get a get request for a specific campsite we send that message 83) with the campsite that was requested === ${req.params.campsiteId}   this is just echoing back the request to make sure that we can see the requested campsiteId correctly... 
+
+NOTES... 
+-Use multiple routers to manage routing for different paths
+-each router works like a mini express app thats focused on routing only
+-routers can use other middleware through router.use() method
+-each router also behaves like middleware itself, can be used as callback argument for app.use()
+

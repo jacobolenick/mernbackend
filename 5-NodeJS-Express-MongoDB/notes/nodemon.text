@@ -1,0 +1,22 @@
+nodemon is a development tool that auto restarts Node application when file changes in the directory are detected. By using it, you will no long have to stop and restart your running node server every time you make a change.
+
+-in order to prevent nodemon from auto restarting your app before youre done updating your code, you will need to turn off autosave feature and remember to manually save. 
+
+-install globally with ... npm install -g nodemon
+-nodemon wraps around the node command. To use it, use nodemon wherever you would normally use the node command. 
+-To us in the Express server, go to the package.json file and replace the line: "start": "node ./bin/www" with the line:      "start": "nodemon ./bin/www"
+
+Now whenever you run npm start, nodemon will start up and restart your app whenever you make changes to relevant files. Otherwise, you would have to stop your server and restart it manually every time you made a change and wanted to see it take effect.
+Use ctrl-c to stop nodemon. To be safe, remember to stop nodemon before you install any packages to your project. 
+Note: Once again, don't forget you will want to turn off Autosave, so that nodemon will only restart your server when you save manually instead of while you're in the middle of making updates. If you have been used to VS Code auto-saving for you, that means you will need to get in the habit of remembering to save your work manually!
+When using node directly from the command line instead of package.json, you can also substitute node with nodemon. In Week 1 of this course, you ran Node applications by entering node followed by the application filename into your terminal, e.g. node app. In that case, you would enter nodemon app instead.
+By default, the files watched for changes are  of .js, .json, .mjs, .coffee, and .litcoffee. For information on how to add other file extensions to the watch list, and more details on nodemon, visit the nodemon documentation.
+
+
+
+
+
+
+
+
+

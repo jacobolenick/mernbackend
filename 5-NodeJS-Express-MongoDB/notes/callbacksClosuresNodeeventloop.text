@@ -1,0 +1,29 @@
+Callback Functions 
+    -a function that is passed to another function as an argument. 
+    -Commonly used to execute asynchronous code. A callback is passed into another functuion as an argument, then waits for an asynchronous operation to finish, such as a setTimeout function or fetching data from a server, before the callback is executed. 
+Higher-Order Functions
+    -a function that passes in another function as its argument , or returns a funtion as its return value.
+First class Functions
+    -A programming language is said to have first class functions when it supports treating functions like any other variable. 
+    -functions can be assigned to variables, passed around as arguments to other functions, used as the return value of another function.
+
+Closures
+    -refers to an inner function that has access to its enclosing scope.
+    -when a function is defined inside another function, automatifally gets access to the variables in the outer function. 
+
+The Node Event Loop
+    -Node.js is organized into a single threaded event Loop (can only handle one thing at a time)
+    -JS is single threaded but modern system kernels are multi threaded & can handle multiple parallel operations in background
+    -Node event loop executes incoming requests, one after another
+    -whenever it needs to will offload I/O requests to system kernels
+    -when finished syste, kernel will let node know so it can queue associated callbacks & eventually execute them via event loop. 
+    6 phases... 
+        Timer Phase: Event loop executes callbacks scheduled by setTimeout() or setInterval() functions
+        Pending Callbacks Phase: Deals w/ certain system-level error callbacks (you will not use this)
+        Idle/Prepare Phase: Used internally by Node (you will not use this)
+        Poll Phase: Processes a queue of callbacks, once the queue is empty, will wait for handle any new requests or timers
+        Check Phase: Handles callbacks from setImmediate() timer function when the queue in the poll phase is empty (this is different from setTimeout or setInterval which will attempt to execute as soon as their set time has elapsed)
+        Close Callbacks Phase: Handles emitting the 'close' event if a socket or handle is closed abruptly (you will not use this)
+
+
+NOTE!!!! console.dir(functionName) will give you more info about the function in the paren....

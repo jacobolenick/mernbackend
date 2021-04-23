@@ -1,0 +1,77 @@
+RECTANGLE.JS
+module.exports = (x, y, callback) => {
+    if (x <= 0 || y <= 0) {
+        callback(new Error(`Rectangle dimensions must be greater than zero. Received: ${x}, ${y}`));
+    } else {
+        setTimeout(() => 
+            callback(null, {
+                perimeter: () => 2 * (x + y),
+                area: () => x * y
+            }),
+            2000
+        );
+    }
+};
+RECTANGLE.JS
+APP.JS
+function solveRect(l, w) {
+    console.log(`Solving for rectangle with dimensions: ${l}, ${w}`);
+
+    rect(l, w, (err, rectangle) => {
+        if (err) {
+        console.log('ERROR:', err.message);
+        } else {
+            console.log(`Area of rectangle with dimensions ${l}, ${w} is: ${rectangle.area()}`);
+            console.log(`Perimeter of rectangle with dimensions ${l}, ${w} is: ${rectangle.perimeter()}`);
+        }
+    });
+    console.log('This statement is logged after the call to rect()'); 
+}
+
+solveRect(2, 4);
+solveRect(3, 5);
+solveRect(0, 5);
+solveRect(5, -3); 
+APP.JS
+NOTESSSS!!!! NOTESSSS!!!!NOTESSSS!!!!NOTESSSS!!!!NOTESSSS!!!!NOTESSSS!!!!NOTESSSS!!!!NOTESSSS!!!!NOTESSSS!!!!
+2) exports keyword is a short hand for module.exports ... but we cant use the shorthand unless were defining a method on the exports. but now we're assigning a function as the value of the entire export instead of just a method of the export so we have to use module.exports 
+assigned a function that takes 3 parameters. in this case x, y, and callback... callback is a function that will be passed in when this module is called. 
+
+3) in this error callback pattern we'll check for the error condition(if the arguments we recieved are invalid in any way)
+4) node error callback pattern .. makes this callback function expent an error object as its first argument (it is standard practice in nodeJS for async functions to return an error object as its first arguent).. the error object is a Global object in JS that contains info about an error.. create w/ new keyword followed be Error and give this error object a message .. 
+as soon as this errror is detected this callback will run.. 
+
+5) else block
+    6)we use setTimeout to stimulate a situation where a asynchornise operation needs to be made.. EX) maybe we make a request to a database and the database needs to be read before the value is passed back to us.. 
+7) for the first argument in setTimeout we pass it a function; arrow function that contains the callback... instead of the first argument of that function being an error we pass it null , then the methods we want to run.. Also on lines 8-9 we did not need to pass the methods x and y due to closures and scope/ the callback function already has access to x and y from the outter function that is module.exports... 
+
+11) we finished of the set setTimeout function with a duration in miliseconds... 
+
+
+
+
+
+Js was originally designed to use for browser scripts but now its used to write full flegeed apps, both within and outside the browser (outside is what node does). 
+
+Js did not start out w/ common libraries pr support for distributing code to multiple files then merging them into a single app.
+2009 CommonJS format created to fill that gap. C-JS defined a module format for JS apps.
+Node & NPM were developed using C-JS module format. 
+
+3 categories for node modules
+    1) External, 3rd party modules 
+        -installed using NPM to node_modules folder
+    2) Node core modules
+        -built into node, do not need to be installed
+        -intentionally minimal 
+        -include path, fs (filesystem), OS, util, and more 
+    3) File based modules within our own application 
+        -Use module.exports syntax to export code form JS files 
+        -import into other files using Nodes built in require functtion 
+        -very much like ES6 import/export concept, which is also available in Node from node version 8.5 and up.
+
+You can run a test in the console just by typing node then the file name.. 
+ w/ node we can make a function then export it in one file and call it in another function/ import it using the require keyword 
+ 
+
+const _____ = require('./______');
+    -keyword require then ('fileName/path) allows us to access what is being exported by that fileName

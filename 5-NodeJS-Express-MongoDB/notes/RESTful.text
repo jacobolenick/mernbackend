@@ -1,0 +1,40 @@
+REST (Representational State Transfer)
+    -is a software architectural style that defines a set of constraints for creating Web services
+    Web services- resources available over the Web
+    2 basic types: SOAP & RESTful
+        SOAP- Simple Object Access Protocol
+            - older approach
+            -uses WSDL (web services description language) to specify how two endpoints in a network communicate with each other
+            -Depends on XML for its messaging format.
+            -strictly definded rules
+        REST    
+            -can use XML, HTML, plain text, or JSON for its messaging format
+            -Rest has become more popular. its simpler and easier to implement.
+            -describes an approach but does not lay out exact specifications. 
+    6 defining constraints of REST. Web services that conform to these are called restful.
+    1) Cliet-Server Seperation: the client and server can be implemented separately from each other, as long as the interface between them stays consistent. This division of UI and data storage concerns improves the flexbility and scalability of both sides, and they are able to evole independently of each other. 
+    2) Statelessness: The server does not store any information about the client's state after the communication is complete. The  client is responsible for tracking its own state through the front-end application state, cookies, etc. 
+    3)Unifrom Interface: Resources that are exposed by the server must have a single URI (Uniform Resource Identifier). This is done with a directory-like style as you have seen with the routes you've created with react-router, e.g. htttp://localhost:3000/directory/1. 
+    4) Cacheable: Clients can cache responses, and server responses will contain information about how to cache them, of if they should be cached at all. 
+    5) Layered System: There can be many layers between the client and the server. The client will not necessarily know if it's dealing directly with the end server of from an intermediary server that has cached the data that's being requested. 
+    6) Code on Demand: This is the only optional constraint. Servers may tempporarily extend the functionality of client side code by transferring executable code, such as JS. 
+
+    The 9 HTTP METHODS (VERBS)-
+    1)POST (create a new resource on the server)Create
+    2)GET  (request a resource on the server)Read
+    3)PUT  (update a resource on the server)Update
+    4)Delete  (delete a new resource on the server)Delete
+    5)HEAD
+    6)CONNECT
+    7)OPTIONS
+    8)TRACE
+    9)CATCH
+    The first 4 are analogous to CRUD operations from database programming Create/Read/Update/Delete 
+
+    Idempotence: When an operation can be repeated multiple times and does not change its operand more than once, if at all.
+    A git request is idempotence because its read only and isnt changing anything. 
+
+    A resource on a server is any data that can be requested by a client- a name from a database, a stock price, a weather report, an image or HTML file, etc.
+    Resources are made available at unique URIs, and a client can request each resource specifically by its URI.
+    The server responds to a GET request for a resource by sending a representation of that resource, typically as JSON or XML.
+    Or the client will send a POST or PUT request by sending a JSON/XML representation in its request body, and the server wiwll create a resource from it. 

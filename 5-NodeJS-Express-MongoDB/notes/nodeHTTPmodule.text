@@ -1,0 +1,30 @@
+Node Core modules import them using require function... 
+-the HTTP module provides a method.. http.createServer()- creates a new instance of http.Server class
+-Receives a callback function as a parameter (request handler) 
+    when the server is listening to requests, the request handler is called for every server request 
+    use listen method: server.listen()-- with port number and hostname to listen on
+
+Http module request handler 
+    -callback with 2 parameters: request and response (req, res)
+    -objects containing info about the request from the client and the response that will be sent back to the client. 
+
+    req object contains info about the request: headers, method, url, status, and more...
+
+    res object is given info for the response: header, status, code, and more
+Use res.write() method to write message body, then res.end() method to complete response, ex)
+    res.write("Hello World");
+    res.end();
+Can also omit the write method and pass info for the body as an argument in the end() method xe)
+    res.end("Hello World");
+once the end method is calld the response is finished... 
+
+Path and File system Modules
+both are core modules of Node
+    -path: utilities for working with file and directory paths ex)
+    path.extname() returns file extension from given file, 
+    path.resolve() converts relative path to absolute path type... 
+
+    -fs: utilities for interacting with local filesystem ex) 
+    fs.access() checks whether a file can be accessed, 
+    fs.createReadStream() reads from a file in small chunks of data (without loading the entire file into memory)
+    

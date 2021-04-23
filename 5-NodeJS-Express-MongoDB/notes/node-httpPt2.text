@@ -1,0 +1,68 @@
+const { readlinkSync } = require('fs');
+const http = require('http');
+
+const hostname = 'localhost';
+const port = 3000; 
+
+const path = require('path');
+const fs = require('fs');
+
+const server = http.createServer((req, res) => {
+    console.log(`Request for ${req.url} by method ${req.method}`);
+    
+    if(req.method === 'GET') {
+        let fileUrl = req.url;
+        if (fileUrl === '/') {
+            fileUrl = '/index.html';
+        }
+
+        const filePath = path.resolve('./public' + fileUrl);
+        const fileExt = path.extname(filePath);
+
+        if (fileExt === '.html') {
+            fs.access(filePath, err => {
+                if (err) {
+                    res.statusCode = 404;
+                    res.setHeader('Content-Type', 'text/html');
+                    res.end(`<html><body><h1>Error 404: ${fileUrl} not found</h1></body></html>`);
+                    return;
+                }
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/html');
+                fs.createReadStream(filePath).pipe(res);
+            });
+        } else {
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'text/html');
+            res.end(`<html><body><h1>Error 404: ${fileUrl} is not an HTML file</h1></body></html>`);
+        }
+    } else {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/html');
+        res.end(`<html><body><h1>Error 404: ${req.method} not supported</h1></body></html>`);
+    }
+});
+
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+NOTES!!!!!!  NOTES!!!!!!  NOTES!!!!!!  NOTES!!!!!!  NOTES!!!!!!  NOTES!!!!!!  
+7-8) core pieces so require method is all that is needed to import path and fs (file system)
+ 14) variable and we get its value w/ req.url ... to see the contents of the request url... if the request came in and it was just to the host name such as localhost  w/out specifying a url beyond that such as aboutus.html then the req.url property will contain just a forward slash. in that case send back the index.html file automatically line 16).
+
+19) get the absolute path of the file thats being requested.. saved in a variable and use path.resolve() to convert from a relative path to an absolute path.. we have the requested files in the public folder so ./public then add the fileUrl to it... and fileUrl will auto have a / as its first character so no need to add one after .public  
+
+20) check if a requested file is an HTML file... variable fileExt then path.extname() to parse out the extension from the filePath.. 21) if fileExt===html then we'll execute code.. if not hTML we'll enter the else block on line 35-39) 
+
+23) to check if the file even exist on the server... fs.access() lets us know if a file is accessable. fs.exist is sometimes used too... takes 2 arguments the path of the file we want to check then a callback that takes an err argument which we call err... if file not accessable then an err object will be passed to the err argument  so we can check if err is truthy we send back that 404 err response.. 
+28) return is there to make sure the code below is not executed.. 
+
+32) to send the HTML file... createReadStream() and give it a filePath.. this takes care of reading the contents of the file its given in small chuncks instead of all at once... Lazy Loading Basically.. then take the contents and .pipe(res) it... send it over to the response object... pipe() is available on node streams 
+res object is a special type of object that is a stream... and createReadStream creates another stream... 
+when u have 2 stream methods u use the pipe method to send the info from one to the other... 
+
+we dont need the end() after this spot because when createReadStream is finished reading from the file it will cause the response object to end by default... 
+
+
+In this exercise, you learned about using the core Node http module to implement a basic HTTP server, as well as using two other core modules, fs and path, to access filesystem and path utility methods provided by Node to write the code to handle server requests. 

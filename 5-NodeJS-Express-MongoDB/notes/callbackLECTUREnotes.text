@@ -1,0 +1,17 @@
+is a function that waits for something to happen then gets called 
+
+JS is one lane road doesnt allow multi tasking... so a promise says branch off the road then wait for something to happen then get back on the main road...  callbacks are like this.. 
+
+non-blocking means it can execute lots of things at once..  Asynch allows multiple lanes instead of just one that would get backed up.. 
+it accoplishes this by handing off expensive I/O operations to the ulti-threaded system kernel to complete without blocking nodes single threaded operations...
+Then the kernel lets Node know when an operation is completed, and Node uses callbacks and the event loop to pick up where it left off. 
+Expensive=== complex .. how much data can grow/process... the more likely it is to crash the browser... how much resources are taken up by that action.. 
+
+Data coming in = req object
+Data going out = res object
+    Both are special object types.. streams 
+
+
+Middleware is a function that goes between things and does something every single time so you dont have to re-do code.. Commonly used for console logging... 
+
+Endpoint: combination of an HTTP verb plus a resource location (path or URL)- a single path (such as '/campsites') can have multiple endpoints on it (multiple points to which a server request can ..... (he switched slides))

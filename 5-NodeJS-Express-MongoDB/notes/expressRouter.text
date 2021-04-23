@@ -1,0 +1,27 @@
+Express provides a method that corresponds to each type of HTTP verb. 
+    called routing methods
+    - app.get(), app.post(), app.put(), app.delete(), etc... 
+    you can also use app.all if you want to match all HTTP verbs 
+
+    they have 2 required paremeters 
+    1) path: is typically provided like (based on the part of the HTTP address that comes after the baseUrl):
+        app.get('/campsites'),(req, res, next) => {
+            ...
+        });
+    2) callback function: a middleware function that will be used to handle the server request to  that endpoint. 
+
+    Route Parameters: Use a colon to parse a string in a request path into a parameter stored in req.params. 
+    ex) app.get('/campsites/:campsiteId',(req, res, next) => {
+            ...
+        });
+            -so the colon before the word campsiteID tells the server if we receive a request where theres a string after the 
+            /campsites/ then we're going to store that string inside a route parameter named campsiteId there after we can access that string via the req.params.campsiteId property.. 
+    
+    A GET request is fairly simple (read) operation- the server receives a GET request and responds w/ the requested data. 
+
+    A PUT or POST request is a more complex (write) operation- request message body contains data that the server needs to parse
+
+    The built in express.json() middleware auto parses JSON data into properties of the req.body JS object, so we can use that data easily. 
+
+    When handling endpoints for multiple paths, use the built in express router to subdivide the routing into multiple modules. 
+    EX) router module named campsiteRouter can be usedd to deall with requests that involve paths beginning with '/campsites'.

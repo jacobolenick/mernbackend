@@ -1,0 +1,83 @@
+SQL & Relatational Databases
+    - Structured Query Language- used with relational databases (sometimes called SQL databases). 
+    - 1970 based on E.F Codd's proposal
+    -Most commonly used database technologies today.
+    -SQL syntax examples
+        -SELECT * FROM Partners;
+            this would select all the rows from the Partners table
+        -CREAT DATABASE campsites;
+            this would create a new database named campsites
+    -Data is represented as tables with rows and columns
+    -Designed to be easy to sort and analyze data, use queries to create new tables with specific criteria, etc
+    -Strict schema: every row in table must have identical structure
+    -Some popular Relational Database Management Systems(RDBMS) include Ms Access, Oracle, MySQL
+    -effective & widespread data management solutions, but with some limitations. 
+
+
+-Increasing demand for new capabilities led to more recent development of databases lossely grouped as NoSQL.
+-at least 4 classifications of NoSQL databases: key-value based (Redis), column-family based (Cassandra), graph based (Neo4j), and document based (MongoDB)
+
+
+MongoDB originated in 2007, the 'mongo' is short for humongous 
+-Designed to be capable of handling large amounts of data
+-a MongoDB database contains collections(table), collections contain documents(row), documents contain fields(cells in a table).
+ -mongoDB does not enforce any inherent structure on documents
+ Documents in the same collection can have completely different structure from each other. 
+ the are ways to enforce structure when you want to.
+ 
+ -behind the scenes, documents stored in BSON format (binary JSON)
+ -BSON extends JSON model to provide additional data types, ordered fields, and to be efficient for encoding and decoding within different languages
+
+ -Every document in mongoDB must have unique _id field as a primary key which is immutable once it is set. 
+ if you dont set a value, MONGODB will generate it using ObjectId
+ -ObjectID is a data type provided by the BSON format, uses timestamp, increment value, etc, to create unique ID every time. 
+-besides the objectID other types of data added by BSON include Date, Regular Expression, and Binary Data. 
+
+NoSQL databases benefits over SQL ones..
+    -Major advantage is: Scalability
+there are 2 basic ways for a database to go: Horizonally or Vertically
+    -Vertical scaling: improve capacity (RAM, CPU, disk space, etc) of existing server to be able to handle more data
+    -Horizontal scaling: distribute databases over multiple servers (computers), ideal for cloud computing. 
+SQL databases are difficult to distribute, limited to vertical scaling.
+NoSQL databases are designed for horizontal scaling. 
+    -Mongo uses a method called "sharding" to distribute data. 
+
+    -another advantage: Ease of Deployment
+advantages of SQL over NoSQL:
+    -faster at performing complex, analytical queries
+    -more stable for high transaction uses with frequent updates to records, where data integrity is important, ex) banking apps
+    -more established, tested tech, more tools, wider userbase
+
+There is no clear winner and which type of Database to use depends on use and priorities.. 
+
+everything below this point is copy and paste from the lesson instructions... 
+
+
+Open a bash terminal in the mongodb folder and then start the MongoDB server by typing the following at the prompt: 
+mongod --dbpath=data
+Open another bash terminal (in any location), then type the following command to start the Mongo REPL (Read Evaluate Print Loop) shell: 
+mongo
+The Mongo REPL shell will start running, inside which you can issue commands to the MongoDB server. 
+At this prompt, enter the following commands one by one and observe the results: 
+db
+use nucampsite
+db
+db.help()
+Next, create a collection named campsites, and insert a new campsite document in the collection: 
+db.campsites.insert({ name: "React Lake Campground", description: "Test" });
+Then to print out the campsites in the collection, type: 
+db.campsites.find().pretty();
+Note the "_id" that was automatically assigned to the campsite. 
+Next, we will learn the information encoded into an instance of ObjectId by typing the following at the prompt: 
+const id = new ObjectId();
+id.getTimestamp();
+To exit the REPL shell, type exit at the prompt:
+exit
+
+
+Summary
+
+In this exercise, you downloaded and installed MongoDB. Then, you started the MongoDB server and learned how to interact with it using the Mongo REPL shell.
+
+
+https://learn.nucamp.co/mod/page/view.php?navbutton=Next&id=3974 optional Robo3t is a 3rd party app that provides free, lightweight graphical interface for MongoDb 

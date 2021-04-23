@@ -1,0 +1,46 @@
+PACKAGE.JSON
+{
+    "name": "node-http",
+    "version": "1.0.0",
+    "description": "Node HTTP Module Example",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server"
+    }
+}
+PACKAGE.JSON
+SERVER.JS
+const { readlinkSync } = require('fs');
+const http = require('http');
+
+const hostname = 'localhost';
+const port = 3000; 
+
+const server = http.createServer((req, res) => {
+    console.log(req.headers);
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<html><body><h1>Hello World!</h1></body></html>');
+});
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+SERVER.JS
+NOTES!!!! NOTES!!!!NOTES!!!!NOTES!!!!vNOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!! 
+15) importing http w/ the require function.. 
+
+17-18) just setting a few constants... 
+
+20) http.createServer method creates a basic /minimal server object using an existing http.server class
+it takes a request handler callback function as a parameter... called everytime the server recieves a request... and it takes 2 objects as parameters req and res.... special types of objects (strings) and with that type data is not processed all at once but piece by piece... 
+
+21) the request object gives access to the headers using req.headers 
+22) status code 
+23) header for response using the setheader method and the header 'Content-Type' passed as a string in the first argument tells the client what kind of ddata to expect in the response body.. The value of this header is passed in the second argument also as a string 'text/html' anytime you're sending html in the body  you should set the header just like this 23) 
+24) set up a response body and close the response string using res.end() anytime the response body is short just include it as part of the res.end by passing it the string that we want to be the body... inline html... This particular example is an entire HTML document composed in a simple single string..   
+
+We have created a server but now we need to start it .. 
+27) We do this by using the server variable that is set up followed by calling the listen method on it.. Pass 2 arguments the port and hostname variables that we set up on line 17-18)...
+then also a 3rd argument which will be a callback funtion that will execute when the server starts up.. in this example we just wrote a lil message when the server starts to let us know that its running. 

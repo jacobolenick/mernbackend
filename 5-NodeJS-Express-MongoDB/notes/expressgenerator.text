@@ -1,0 +1,11 @@
+In this lesson, you will learn about the use of Express Generator to scaffold out the starter files for your Express server application, and we will examine the starter files and discuss their purpose. 
+
+CLI tool to scaffold out starter files and folders for a basic express server app.
+auto installs commonly used middleware
+installed through NPM, then used with CLI command: express <app name>
+    -this will generate a folder with the name of the app that you typed in. 
+
+there is no nodemodules when using a generator ( or at least when using this one)... but the package.json tells the comp all the dependencies that we would need so use npm install to get those.. 
+
+and make sure to add a .gitignore file with the contents of      node_modules 
+

@@ -1,0 +1,27 @@
+Express
+-One of the most popular server-side third party node modules is Express, a framework for building HTTP servers. 
+-Fast, unopinionated(flexible), minimalist wed framework for node.js.
+-Express Middleware
+    -can be extended with third party middleware for additional functionality.
+    -many middleware libraries available to use. 
+        Morgan- logs info about server requests. 
+        express.json()- built in middleware, helps parse JSON encoded Http request messages
+        express.static()- built in middleware to serve static files. 
+            can be given a path to a directory then be able to serve up the static files for that directory.
+
+Semantic Versioning- consist of 3 numbers.. 
+    Major Versioning.Minor Versioning. Patch ex) 4.17.1
+    Major version: major update might introduce breaking changes not backward compatible with the previous version. 
+    Minor version: typically will not contain any intentional breaking changes.
+    Patch: small update such as minor bugfix, no breaking changes. 
+
+if you dnt specify a version NPM will install the latest version.. install latest patch within the same minor version us a ~ 
+ex) npm install express@~4.17.1
+install latest patch OR minor version within same major version use a ^ , ex) npm install express@^4.17.1 
+npm install will install all the dependencies listed in package.json (including devDependencies unless you use --production flag)
+
+package-lock.JSON file stores info about the exact file tree generated whenever node_modules or package.json are modified... 
+Meant to help when package.json contains dependencies using ~ r ^ to allow install of a higher patch or minor version. Sometimes this causes issues tho.. so package-lock.json will default and install same versions as the last time package-lock.json was generated. 
+
+NEEED to look up npm init???
+

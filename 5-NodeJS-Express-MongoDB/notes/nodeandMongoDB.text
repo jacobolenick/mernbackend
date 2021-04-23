@@ -1,0 +1,100 @@
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert').strict;
+
+const url = 'mongodb://localhost:27017/';
+const dbname = 'nucampsite';
+
+MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
+
+    assert.strictEqual(err, null);
+
+    console.log('Connected correctly to server');
+
+    const db = client.db(dbname);
+
+    db.dropCollection('campsites', (err, result) => {
+        assert.strictEqual(err, null);
+        console.log('Dropped Collection', result);
+
+        const collection = db.collection('campsites');
+
+        collection.insertOne({name: "Breadcrumb Trail Campground", description: "Test"},
+        (err, result) => {
+            assert.strictEqual(err, null);
+            console.log('Insert Document:', result.ops);
+
+            collection.find().toArray((err, docs) => {
+                assert.strictEqual(err, null);
+                console.log('Found Documents:', docs);
+
+                client.close();
+            });
+        });
+    });
+});
+NOTES!!!!!! NOTESSSS!!!! NOTES!!!!!!
+
+1) const named mongoclient will act as a client for the mongo server.. it requires the mongodb driver and from that driver the MongoClient object. 
+2) assert = a core module from node.. strict version so type .strict... 
+4) set up a connection to the mongo db server.. const named url will be the url where the server can be accessed and we use the custom protocol of mongodb://localhost:27017/ this is a port number at which the mongodb server is running 27017
+then we need to give the name of the database we want to connect to.. so 5) const dbname= 'nucampsite'; 
+7) MongoClient.connect() allows us to connect the mongo client with the mongodb server... as the first argument pass the url variable we created on line 4) second argument u can pass in an object that sets various options. 
+At this time we need to pass an object with this property: useUnifiedTopology: true 
+    -in a later version of the node driver this would not be necessary but for now it enables a major update and rewrite of the topology layer of the mongo node driver. not necessary to fully understand right now except it will prevent deprecation warnings from showing up in our app. 
+after this for the 3rd argument = a callback function with 2 parameters in its parameter list: the err object and the client... we can then use the client to connect to the database and perform various operations. 
+
+9)Inside the callback func we first check to make sure the err is not null. The assert func allows us to perform various checks and values. assert.strictEqual(err, null);
+    - the first argument is the actual value that we're checking. and the second is the value we are checking against to see if the first value strictly equals the second. If they match then we just continue on but if they dont match in this case if err is not strickly equal to null then this result will fail. 
+    - When an assert fails it will throw an error and terminate the entire app. and log to the console the error that occured. 
+    -if the assert does not fail then we just continue with the app
+    -think of this as if err === null then.quit() otherwise continue... 
+next 11) we console log 'Connected correctly to server' and by server we mean the mongodb server
+
+13)db is set to equal client.db(dbname);
+    -dbname we set above on line 5) to equal 'nucampsite'
+    - this method will direct us to the nucampsite database on the mongodb server and then the db object will be used to access a set of methods to interact with that database. 
+
+15)Deleting all the documents in the nucampsite collection.. special word instead of delete or remove== drop 
+-serious operation and you don't want to drop anything by mistake it can be difficult to get back.. 
+-to drop a collection > db.dropCollection('name of the collection', callbackfuntion(err, result)=>{
+    16)in the call back we will assert that the error is not null: assert.strictEqual(err, null) 
+    17)console log that we dropped the collection and print the result. 
+
+    19) then we'll recreate the campsites collection and regain access to it by setting the const collection object to db.collection('campsites);
+    21) add a doc into the collection using the collection object we just created. 
+    - collection.insertOne({name: "blah blah", description "test"}, a callbackfunction(err, result)=> {
+       23) assert.strictEqual(err, null); 
+                -Basically if err doesnt equal no that means there was an error and the app must stop. 
+        24)console.log ( "insert Document: ", result.ops) 
+                -opps is a property short for operations and depending on the method it can contain different values. in this case for the insertOne method it will contain an array with the document that was inserted. 
+
+        26) is printing to the console all the documents contained within the collection. 
+        collection.find()
+            -collection.find() with an empty parameter list will return all the documents. 
+            -there are ways to find specific documents as well by supplying a filtering conditon as an argument
+            - .toArray() is a method from the mongodb node drive... it will convert the documents to an array of objects so we can console log it. It takes a callback with the usual node err convention .. 
+           26) so collection.find().toArray(err, docs) =>{
+                   27) assert.strictEqual(err, null);
+                    28)console.log('Found Documents: ', docs) 
+                            -this is the docs thats passed into the docs parameter. 
+                    30) client.close(); 
+                            -this method will immediately close the clients connection to the mongodb server 
+            }
+    })
+})
+
+
+
+
+mongod--dbpath=data to start the mongo server
+
+Mongo REPL shell- used to manually access and update databases, helpful for debugging. 
+-however in backend dev; we need to access and manipulate the database from within a node app
+-install official MongoDB node.js driver
+    -provides a high-level API that enables us to interact with MongoDB server from a Node app. 
+
+    install with NPM: npm install mongodb
+    then require it within ourr app to get access to database operations, the usual CRUB operations and more. 
+    supports both callback-based and promise based interactions with MongoDB server.
+In this exercise, you installed the Node MongoDB driver and used it to communicate with the MongoDB server from a Node application, learning how to insert and find documents in a collection, as well as how to delete a collection. You also learned to use the assert module built into Node to test for errors.
+https://learn.nucamp.co/mod/book/view.php?id=3589&chapterid=4064

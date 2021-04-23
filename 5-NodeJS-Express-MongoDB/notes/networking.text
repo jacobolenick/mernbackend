@@ -1,0 +1,32 @@
+Back end of web apps- typically hosted on servers of cloud platforms - AWS, Heroku, DigitalOcean, Microsoft Azure, and more
+
+when your React app (from a browser) wants to communicate with its back end (or any server), keep in mind that there will be delays and potential errors.
+
+your font end app needs to handle such issues and let the user know whats happening. 
+
+Networking Protocols- (B/W web browers and web servers specifically)
+    - a networl protocol is a set of rules for how two networked systems will talk to each other. Rules such as: what kind of data will be exchanged, how data will be formatted, hoow the systems will respond to certain types of requests, etc
+    -Many different network protocols: TCP, UDP, FTP, SMTP, and more- operating at different network layers ranging from the physical layer to the application layer. 
+
+HTTP (HyperText Transfer Protocol) 
+    -foundation of data communication on the web. 
+    -application layer protocol 
+    -Everytime you load a new webpage from the web the browser sends requests to the server via HTTP request 
+    the server responds to the request via HTTP response.
+
+    HTTP request always require a HTTP method... both request and response will include a protocol version typically 1.1... request has a URL , HEaders(optional), Body (if it exist... response will always have a status code), HEaders(optional), Body (if it exist... 
+
+Transferring Data: XML vs JSON
+    -static, multi-page sites: every new webpage requires all resources to be loaded from the server. Your React single-page app downloads most files to the browser when wbsite first loads, then every new view/ page downloads data for that view such as campsites data. 
+    Two most common ways to format text data files: JSON & XML
+
+JSON stand for JS object notation... 
+    - its syntax is not exactly the same as a JS object but very close- so its very easy to convert JSON to and from JS objects
+    -JSON file format specifically used to encode data for transferring over networks, and is easy for JS and databases to parse.
+    -
+XML (eXtensible Markup Lanaguage)
+    -before JSON and still very popular.. 
+    -syntax is similiar..
+    -not intended to be read by browser but used to store and transfer texr data. 
+    -typically used with protocol named SOAP; JSON used with RESTful web services... 
+
